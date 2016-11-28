@@ -1,0 +1,4 @@
+{"command": {"rulename": "/steal_caught", "args": ["(c 36)", "(c 87)", "grimoire", "(injustice (steal (c 87) (c 89) grimoire))"]},
+ "removed": [{"varname": "x12557", "mode": "lin", "pred": "process_attempt", "args": ["(steal (c 36) (c 87) grimoire)", "(injustice (steal (c 87) (c 89) grimoire))"]}, {"varname": "x12556", "mode": "lin", "pred": "in_story", "args": ["(c 36)"]}],
+ "added": [{"varname": "x12990", "mode": "lin", "pred": "unresolved", "args": ["(in_danger (c 36))"]}, {"varname": "x12989", "mode": "lin", "pred": "in_rel", "args": ["rival", "(c 87)", "(c 36)"]}, {"varname": "x12988", "mode": "lin", "pred": "in_rel", "args": ["rival", "(c 36)", "(c 87)"]}, {"varname": "x12987", "mode": "lin", "pred": "unresolved", "args": ["(injustice (steal (c 87) (c 89) grimoire))"]}]
+}

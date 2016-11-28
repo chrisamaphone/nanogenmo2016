@@ -1,0 +1,4 @@
+{"command": {"rulename": "write", "args": ["49999", "0"]},
+ "removed": [{"varname": "x100000", "mode": "lin", "pred": "words_remaining", "args": ["1"]}, {"varname": "x99999", "mode": "lin", "pred": "index", "args": ["49999"]}],
+ "added": [{"varname": "x100002", "mode": "lin", "pred": "words_remaining", "args": ["0"]}, {"varname": "x100001", "mode": "lin", "pred": "index", "args": ["50000"]}]
+}

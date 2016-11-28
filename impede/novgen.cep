@@ -1,0 +1,440 @@
+
+nat : type.
+z : nat.
+s nat : nat.
+#builtin NAT nat.
+#builtin NAT_ZERO z.
+#builtin NAT_SUCC s.
+
+nat_neq nat nat : bwd.
+nat_neq z (s N).
+nat_neq (s N) z.
+nat_neq (s N) (s M)
+  <- nat_neq N M.
+
+o : type.
+char o : bwd.
+rel o : bwd.
+verb o : bwd.
+state o : bwd.
+
+c nat : o.
+char (c z).
+char (c (s N))
+  <- char (c N).
+
+neq o o : bwd.
+neq (c N) (c M)
+  <- nat_neq N M.
+
+gensym nat : pred.
+
+pos o : bwd.
+
+sibling : o.
+rel sibling. pos sibling.
+parent : o.
+rel parent. pos parent.
+child : o.
+rel child. pos child.
+friend : o.
+rel friend. pos friend.
+lover : o.
+rel lover. pos lover.
+spouse : o.
+rel spouse. pos spouse.
+tutor : o.
+rel tutor. pos tutor.
+student : o.
+rel student. pos student.
+rival : o.
+rel rival.
+ruler : o.
+rel ruler.
+subject : o.
+rel subject.
+crush : o.
+rel crush. pos crush.
+ooa : o. % object of attraction
+rel ooa.
+
+inverse o o : bwd.
+inverse sibling sibling.
+inverse parent child.
+inverse child parent.
+inverse friend friend.
+inverse lover lover.
+inverse tutor student.
+inverse student tutor.
+inverse rival rival.
+inverse ruler subject.
+inverse subject ruler.
+inverse spouse spouse.
+inverse crush ooa.
+inverse ooa crush.
+
+in_story o : pred.
+in_rel o o o : pred.
+
+steps nat : pred.
+max_chars nat : bwd.
+max_chars 15.
+nchars nat : pred.
+
+lt nat nat : bwd.
+lt z (s N).
+lt (s N) (s M)
+  <- lt N M.
+
+e nat : pred.
+context init =
+{ in_story (c z), gensym (s z), e 3, steps 10, nchars 1 }.
+
+stage establish = {
+
+/introduce_character :
+  gensym N * rel R * $in_story C * inverse R R' *
+  nchars Nchars * max_chars Max * lt N Max  *
+  e (s E) 
+-o
+  e E * nchars (s Nchars) *
+  in_story (c N) * in_rel R C (c N) * in_rel R' (c N) C
+  * gensym (s N).
+
+% done : e z -o ().
+
+} % #interactive establish.
+
+i : pred.
+establish_to_incite : qui * stage establish * e z -o stage incite * i.
+
+item o : bwd.
+wand : o.
+item wand.
+potion : o.
+item potion.
+crystal : o.
+item crystal.
+grimoire : o.
+item grimoire.
+candle : o.
+item candle.
+bell : o.
+item bell.
+
+%% Inciting verbs
+murder o o : o.
+verb (murder C1 C2)
+  <- char C1
+  <- char C2.
+steal o o o : o.
+verb (steal C1 C2 Thing)
+  <- char C1
+  <- char C2
+  <- item Thing.
+kidnap o o : o.
+verb (kidnap C1 C2)
+  <- char C1
+  <- char C2.
+investigate_murder o o : o.
+verb (investigate_murder C1 C2)
+  <- char C1 
+  <- char C2.
+rescue o o : o.
+verb (rescue C1 C2)
+  <- char C1
+  <- char C2.
+
+%% Other verbs
+court o o : o.
+verb (court C1 C2)
+  <- char C1 <- char C2.
+
+give o o o : o.
+verb (give C1 C2 Thing)
+  <- char C1
+  <- char C2
+  <- item Thing.
+
+
+% happens o : pred.
+rolled nat : pred.
+
+problem : type.
+injustice o : problem.
+unreq_love o : problem.
+in_danger o : problem.
+kidnapped o o : problem.
+jealousy o o o : problem.
+
+unresolved problem : pred.
+% resolved problem : pred.
+
+harms problem o : bwd.
+harms (injustice (murder C C')) C'
+  <- char C
+  <- char C.
+harms (injustice (steal C1 C2 Thing)) C2
+  <- char C1
+  <- char C2
+  <- item Thing.
+harms (in_danger C) C
+  <- char C.
+harms (kidnapped C1 C2) C2
+  <- char C1
+  <- char C2.
+
+no_rels o : pred.
+
+stage incite = {
+
+roll_1 : i -o rolled 1.
+roll_2 : i -o rolled 2.
+roll_3 : i -o rolled 3.
+roll_4 : i -o rolled 4.
+
+/someone_murders_someone :
+  rolled 1 *
+  $in_story C * char C *
+  in_story C' * char C' * nchars (s Nchars)
+-o
+  nchars Nchars *
+  unresolved (injustice (murder C C')).
+
+/someone_steals_something :
+  rolled 2 *
+  $in_story C1 * char C1 *
+  $in_story C2 * char C2 *
+  item Thing
+-o
+  % happens (steal C1 C2 Thing)
+  unresolved (injustice (steal C1 C2 Thing)).
+
+/a_stranger_arrives :
+  rolled 3 *
+  gensym G * nchars Nchars *  max_chars Max * lt Nchars Max
+-o
+  nchars (s Nchars) *
+  in_story (c G) * gensym (s G) * no_rels (c G) * i.
+
+/someone_kidnaps_someone :
+  rolled 4 *
+  $in_story C1 * char C1 *
+  in_story C2 * char C2
+-o
+  unresolved (kidnapped C1 C2).
+
+/someone_gets_a_crush :
+  rolled 4 *
+  $in_story C1 *
+  $in_story C2 * no_rels C2
+-o
+  in_rel crush C1 C2 * in_rel ooa C2 C1
+  * unresolved (unreq_love C1).
+
+} % #interactive incite.
+
+token : pred.
+incite_to_progress :
+qui * stage incite -o stage progress. % * token.
+
+attempt o : o.
+verb (attempt A)
+  <- verb A.
+process_attempt o problem : pred.
+
+stage progress = {
+
+%% eliminate rolls
+eliminate_roll : rolled _ -o ().
+
+/court_crush :
+  unresolved (unreq_love C1) * $in_rel crush C1 C2 *
+  $in_story C1 * $in_story C2
+-o
+  % happens (attempt (court C1 C2)) * 
+  process_attempt (court C1 C2) (unreq_love C1).
+
+/redirect_crush :
+  unresolved (jealousy C1 C2 _) *
+  $in_story C1 * $in_story C3
+-o
+  in_rel crush C1 C3 * in_rel ooa C3 C1.
+  
+
+/steal_item_back_from_thief :
+  unresolved (injustice (steal C1 C2 Thing)) *
+  $in_rel R C3 C2 * pos R *
+  $in_story C2 * $in_story C3
+-o
+  % happens (attempt (steal C3 C1 Thing)) * 
+  process_attempt (steal C3 C1 Thing) (injustice (steal C1 C2 Thing)).
+
+/introduce_ally :
+  no_rels C * $in_story C * $in_story C' * pos R
+  * inverse R R'
+%  $unresolved Problem * harms Problem Victim * 
+%  $in_story Victim * pos R
+-o
+  in_rel R C C' * in_rel R' C' C.
+
+/introduce_enemy :
+  no_rels C * $in_story C * $in_story C'
+-o
+  in_rel rival C C' * in_rel rival C' C.
+
+/investigate_murder :
+  $in_story Investigator *
+  unresolved (injustice (murder Murderer Victim)) *
+  $in_rel R Investigator Victim * pos R * neq Investigator Murderer
+-o
+  % happens (attempt (investigate_murder Investigator Victim)) *
+  process_attempt 
+    (investigate_murder Investigator Victim) 
+    (injustice (murder Murderer Victim)).
+
+/rescue :
+  unresolved P * harms P C *
+  $in_story Rescuer * $in_rel R Rescuer C * pos R
+-o
+  % happens (attempt (rescue Rescuer C)) *
+  process_attempt (rescue Rescuer C) P.
+
+% /escape-danger :
+%   unresolved (in_danger C)
+% -o
+%   in_story C.
+
+} % #interactive progress.
+
+progress_to_process :
+qui * stage progress -o stage process.
+
+resolving : pred.
+progress_to_resolve :
+qui * stage progress * resolving -o stage resolve.
+
+stage process = {
+
+% pick one arbitrarily from among multiple relships.
+resolve-relationships :
+  in_rel R1 C1 C2 * inverse R1 R1' * in_rel R1' C2 C1 *
+  in_rel R2 C1 C2 * inverse R2 R2' * in_rel R2' C2 C1
+-o
+  in_rel R2 C1 C2 * in_rel R2' C2 C1.
+
+
+/a_stranger_arrives : % whenever fewer than 4 chars
+  gensym G * nchars Nchars *  lt Nchars 4
+-o
+  nchars (s Nchars) *
+  in_story (c G) * gensym (s G) * no_rels (c G). % * i.
+
+/court-reject :
+  process_attempt (court Suitor Crush) (unreq_love Suitor)
+-o
+  unresolved (unreq_love Suitor).
+
+/court-accept :
+  process_attempt (court Suitor Crush) (unreq_love Suitor)
+-o
+  in_rel lover Suitor Crush * in_rel lover Crush Suitor.
+  % * resolved (unreq_love Suitor).
+
+/chemistry :
+  in_rel crush C1 C2 * in_rel crush C2 C1
+-o
+  in_rel lover C1 C2 * in_rel lover C2 C1.
+
+/jealousy :
+  in_rel crush C1 C2 * $in_rel lover C2 C3 * neq C1 C3
+-o
+  in_rel rival C1 C3 * in_rel rival C3 C1 *
+  unresolved (jealousy C1 C2 C3).
+
+/steal_caught :
+  process_attempt (steal C1 C2 Thing) Reason
+  * in_story C1
+-o
+  unresolved Reason * in_rel rival C1 C2 * in_rel rival C2 C1 *
+  % happens (kidnap C2 C1) * 
+  unresolved (in_danger C1).
+
+/rescue_impeded :
+  process_attempt (rescue Rescuer C) Reason
+  * in_story Rescuer
+-o
+  unresolved Reason * unresolved (in_danger Rescuer).
+
+/rescue-harm-captor :
+  process_attempt (rescue Rescuer C) (kidnapped Captor C)
+-o
+  unresolved (in_danger Captor) *
+  in_story C.
+
+/danger-die :
+  unresolved (in_danger X) * in_story X
+-o
+  ().
+
+/investigate-find :
+  process_attempt (investigate_murder C3 C2) (injustice (murder C1 C2))
+  * in_story C1
+-o
+  unresolved (in_danger C1).
+
+  
+}%  #interactive process.
+process_to_progress :
+  qui * stage process * steps (s S) * $unresolved P
+-o 
+  stage progress * steps S.
+
+process_to_resolve :
+qui * stage process * steps z
+  -o stage resolve * resolving.
+
+stage resolve = {
+
+/escape-danger :
+  unresolved (in_danger C)
+-o
+  % resolved (in_danger C) * 
+  in_story C.
+
+/court-accept :
+  process_attempt (court Suitor Crush) (unreq_love Suitor)
+-o
+  in_rel lover Suitor Crush * in_rel lover Crush Suitor
+  % * resolved (unreq_love Suitor)
+  .
+
+/steal-succeed :
+  process_attempt (steal C1 C2 Thing) Reason
+-o
+  (). % resolved Reason.
+
+/investigate-find :
+  process_attempt (investigate_murder C3 C2) (injustice (murder C1 C2))
+  * in_story C1
+-o
+  (). % resolved (injustice (murder C1 C2)).
+
+/rescue-succeed :
+  process_attempt (rescue Rescuer C) (in_danger C)
+  * $in_story Rescuer
+-o
+  (). % resolved (in_danger C) * in_story C.
+
+}
+resolve_to_progress : 
+  qui * stage resolve * $unresolved P -o stage progress.
+% resolve_to_end : 
+%  qui * stage resolve -o stage end.
+
+stage end = {
+
+}
+
+#trace _ establish init.
+

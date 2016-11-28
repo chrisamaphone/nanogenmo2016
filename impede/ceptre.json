@@ -1,0 +1,4 @@
+{"command": {"rulename": "/rescue_impeded", "args": ["(c 0)", "(c 2)", "(injustice (murder (c 0) (c 2)))"]},
+ "removed": [{"varname": "x120", "mode": "lin", "pred": "process_attempt", "args": ["(rescue (c 0) (c 2))", "(injustice (murder (c 0) (c 2)))"]}, {"varname": "x118", "mode": "lin", "pred": "in_story", "args": ["(c 0)"]}],
+ "added": [{"varname": "x124", "mode": "lin", "pred": "unresolved", "args": ["(in_danger (c 0))"]}, {"varname": "x123", "mode": "lin", "pred": "unresolved", "args": ["(injustice (murder (c 0) (c 2)))"]}]
+}

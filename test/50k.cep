@@ -1,0 +1,33 @@
+
+nat : type.
+z : nat.
+s nat : nat.
+#builtin NAT nat.
+#builtin NAT_ZERO z.
+#builtin NAT_SUCC s.
+
+phrase : type.
+meow : phrase.
+
+words phrase nat : bwd.
+words meow 1.
+
+at nat phrase : pred.
+
+words_remaining nat : pred.
+index nat : pred.
+
+context init = 
+{ words_remaining 50000,
+  index 0
+}
+
+stage main = {
+  write : 
+    index I * words_remaining (s N) % * words W 1
+  -o
+    % at I meow *
+    index (s I) * words_remaining N.
+}
+
+#trace _ main init.

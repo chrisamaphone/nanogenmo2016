@@ -1,0 +1,114 @@
+--- STEP:    /introduce_character 1 ruler (c 0) subject 1 15 2
+    REMOVED: {(nchars 1), (e 3), (gensym 1), (in_story (c 0))}
+    ADDED:   {(gensym 2), (in_rel subject (c 1) (c 0)), (in_rel ruler (c 0) (c 1)), (in_story (c 1)), (nchars 2), (e 2), (in_story (c 0))}
+--- STEP:    /introduce_character 2 friend (c 0) friend 2 15 1
+    REMOVED: {(gensym 2), (nchars 2), (e 2), (in_story (c 0))}
+    ADDED:   {(gensym 3), (in_rel friend (c 2) (c 0)), (in_rel friend (c 0) (c 2)), (in_story (c 2)), (nchars 3), (e 1), (in_story (c 0))}
+--- STEP:    /introduce_character 3 student (c 1) tutor 3 15 0
+    REMOVED: {(gensym 3), (nchars 3), (e 1), (in_story (c 1))}
+    ADDED:   {(gensym 4), (in_rel tutor (c 3) (c 1)), (in_rel student (c 1) (c 3)), (in_story (c 3)), (nchars 4), (e 0), (in_story (c 1))}
+--- STEP:    establish_to_incite 
+    REMOVED: {qui, (e 0), (stage establish)}
+    ADDED:   {(stage incite), i}
+--- STEP:    roll_1 
+    REMOVED: {i}
+    ADDED:   {(rolled 1)}
+--- STEP:    /someone_murders_someone (c 0) (c 2) 3
+    REMOVED: {(rolled 1), (nchars 4), (in_story (c 2)), (in_story (c 0))}
+    ADDED:   {(unresolved (injustice (murder (c 0) (c 2)))), (nchars 3), (in_story (c 0))}
+--- STEP:    incite_to_progress 
+    REMOVED: {qui, (stage incite)}
+    ADDED:   {(stage progress)}
+--- STEP:    /rescue (injustice (murder (c 0) (c 2))) (c 2) (c 0) friend
+    REMOVED: {(unresolved (injustice (murder (c 0) (c 2)))), (in_story (c 0)), (in_rel friend (c 0) (c 2))}
+    ADDED:   {(process_attempt (rescue (c 0) (c 2)) (injustice (murder (c 0) (c 2)))), (in_rel friend (c 0) (c 2)), (in_story (c 0))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    /rescue_impeded (c 0) (c 2) (injustice (murder (c 0) (c 2)))
+    REMOVED: {(process_attempt (rescue (c 0) (c 2)) (injustice (murder (c 0) (c 2)))), (in_story (c 0))}
+    ADDED:   {(unresolved (in_danger (c 0))), (unresolved (injustice (murder (c 0) (c 2))))}
+--- STEP:    /a_stranger_arrives 4 3
+    REMOVED: {(nchars 3), (gensym 4)}
+    ADDED:   {(no_rels (c 4)), (gensym 5), (in_story (c 4)), (nchars 4)}
+--- STEP:    process_to_progress 9 (injustice (murder (c 0) (c 2)))
+    REMOVED: {qui, (unresolved (injustice (murder (c 0) (c 2)))), (stage process), (steps 10)}
+    ADDED:   {(stage progress), (steps 9), (unresolved (injustice (murder (c 0) (c 2))))}
+--- STEP:    /introduce_ally (c 4) (c 3) crush ooa
+    REMOVED: {(no_rels (c 4)), (in_story (c 4)), (in_story (c 3))}
+    ADDED:   {(in_rel ooa (c 3) (c 4)), (in_rel crush (c 4) (c 3)), (in_story (c 3)), (in_story (c 4))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 8 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 9), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 8), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 7 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 8), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 7), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 6 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 7), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 6), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 5 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 6), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 5), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 4 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 5), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 4), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 3 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 4), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 3), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 2 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 3), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 2), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 1 (injustice (murder (c 0) (c 2)))
+    REMOVED: {qui, (stage process), (steps 2), (unresolved (injustice (murder (c 0) (c 2))))}
+    ADDED:   {(stage progress), (steps 1), (unresolved (injustice (murder (c 0) (c 2))))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_progress 0 (in_danger (c 0))
+    REMOVED: {qui, (stage process), (steps 1), (unresolved (in_danger (c 0)))}
+    ADDED:   {(stage progress), (steps 0), (unresolved (in_danger (c 0)))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    process_to_resolve 
+    REMOVED: {qui, (stage process), (steps 0)}
+    ADDED:   {(stage resolve), resolving}
+--- STEP:    /escape-danger (c 0)
+    REMOVED: {(unresolved (in_danger (c 0)))}
+    ADDED:   {(in_story (c 0))}
+--- STEP:    resolve_to_progress (injustice (murder (c 0) (c 2)))
+    REMOVED: {qui, (stage resolve), (unresolved (injustice (murder (c 0) (c 2))))}
+    ADDED:   {(stage progress), (unresolved (injustice (murder (c 0) (c 2))))}
+--- STEP:    /rescue (injustice (murder (c 0) (c 2))) (c 2) (c 0) friend
+    REMOVED: {(unresolved (injustice (murder (c 0) (c 2)))), (in_story (c 0)), (in_rel friend (c 0) (c 2))}
+    ADDED:   {(process_attempt (rescue (c 0) (c 2)) (injustice (murder (c 0) (c 2)))), (in_rel friend (c 0) (c 2)), (in_story (c 0))}
+--- STEP:    progress_to_process 
+    REMOVED: {qui, (stage progress)}
+    ADDED:   {(stage process)}
+--- STEP:    /rescue_impeded (c 0) (c 2) (injustice (murder (c 0) (c 2)))
+    REMOVED: {(process_attempt (rescue (c 0) (c 2)) (injustice (murder (c 0) (c 2)))), (in_story (c 0))}
+    ADDED:   {(unresolved (in_danger (c 0))), (unresolved (injustice (murder (c 0) (c 2))))}
